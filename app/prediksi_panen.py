@@ -132,7 +132,14 @@ def prediksi(nilai, elevasi_m, kawasan_id=None):
         return None
     if _model is None:
         import joblib
-        _model = joblib.load(MODEL_PATH)
+        import warnings
+        try:
+            with warnings.catch_warnings():
+                warnings.simplefilter("error")  # versi scikit-learn berbeda -> latih ulang
+                _model = joblib.load(MODEL_PATH)
+        except Exception:
+            latih()  # data latih kecil (53 baris), selesai dalam beberapa detik
+            _model = joblib.load(MODEL_PATH)
     x = np.array([[float(fitur[f]) for f in FITUR]])
     per_pohon = np.array([t.predict(x)[0] for t in _model.estimators_])
     info = info_model() or {}
