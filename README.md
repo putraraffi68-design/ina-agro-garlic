@@ -1,3 +1,13 @@
+---
+title: INA Agro-GARLIC
+emoji: 🧄
+colorFrom: green
+colorTo: yellow
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # INA Agro-GARLIC — Aplikasi Kesesuaian Lahan Bawang Putih
 
 Prototipe yang bisa dijalankan, dibangun dari LKP 5–6 Kelompok 2: sistem pakar *rule-based*
