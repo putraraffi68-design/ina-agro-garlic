@@ -27,7 +27,6 @@ from pydantic import BaseModel, Field
 import data_spasial
 import db
 import prediksi_panen
-from laporan_pdf import buat_pdf
 from rekomendasi import buat_rekomendasi
 from rule_engine import DAFTAR_PARAMETER, KRITERIA, PARAM, klasifikasi
 
@@ -245,6 +244,11 @@ def ambil(aid: str):
     if not r:
         raise HTTPException(404, {"error": "analisis tidak ditemukan"})
     return json.loads(r["hasil"])
+
+
+def buat_pdf(h):
+    from laporan_pdf import buat_pdf as _buat  # reportlab baru dimuat saat PDF diminta (start lebih cepat)
+    return _buat(h)
 
 
 @app.post("/api/v1/laporan-pdf")

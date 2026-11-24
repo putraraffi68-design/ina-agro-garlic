@@ -27,16 +27,37 @@ else:
     IntegrityError = sqlite3.IntegrityError
 
 
-def _q(sql, params=(), satu=False, semua=False, jumlah=False):
-    """Jalankan satu query; '?' otomatis diganti '%s' untuk PostgreSQL."""
-    if PG:
-        with psycopg.connect(DB_URL, row_factory=dict_row, autocommit=True) as con:
-            cur = con.execute(sql.replace("?", "%s"), params)
+_pg_con = None
+
+
+def _pg(sql, params, satu, semua, jumlah):
+    """Koneksi PostgreSQL dipakai ulang antar-request (buka koneksi baru ke Neon makan ~1 detik)."""
+    global _pg_con
+    for coba in (1, 2):
+        try:
+            if _pg_con is None or _pg_con.closed:
+                _pg_con = psycopg.connect(DB_URL, row_factory=dict_row, autocommit=True, connect_timeout=10)
+            cur = _pg_con.execute(sql.replace("?", "%s"), params)
             if satu:
                 return cur.fetchone()
             if semua:
                 return cur.fetchall()
             return cur.rowcount if jumlah else None
+        except psycopg.OperationalError:
+            # koneksi lama putus (mis. Neon tidur setelah idle) -> buka ulang sekali
+            try:
+                _pg_con and _pg_con.close()
+            except Exception:
+                pass
+            _pg_con = None
+            if coba == 2:
+                raise
+
+
+def _q(sql, params=(), satu=False, semua=False, jumlah=False):
+    """Jalankan satu query; '?' otomatis diganti '%s' untuk PostgreSQL."""
+    if PG:
+        return _pg(sql, params, satu, semua, jumlah)
     con = sqlite3.connect(DB_PATH)
     con.row_factory = sqlite3.Row
     try:
