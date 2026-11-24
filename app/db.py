@@ -14,7 +14,8 @@ from datetime import datetime
 from pathlib import Path
 
 DB_URL = next((os.environ[k] for k in ("DATABASE_URL", "POSTGRES_URL", "POSTGRES_PRISMA_URL")
-               if os.environ.get(k)), None)
+               if os.environ.get(k)), None) or next(  # juga dukung nama berawalan (mis. STORAGE_DATABASE_URL)
+    (v for k, v in sorted(os.environ.items()) if k.endswith(("_DATABASE_URL", "_POSTGRES_URL")) and v.startswith("postgres")), None)
 PG = bool(DB_URL)
 DB_PATH = Path(os.environ.get("AGROGARLIC_DB", Path(__file__).parent / "data" / "agrogarlic.db"))
 
