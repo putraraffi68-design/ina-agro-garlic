@@ -1,0 +1,121 @@
+{
+  "_catatan": "Tabel kriteria kesesuaian lahan bawang putih (disederhanakan dari pendekatan FAO 1976 / juknis BBSDLP, sama dengan PoC LKP 6). WAJIB dikalibrasi ulang bersama pakar tanah / tabel resmi BBSDLP sebelum dipakai sungguhan. Pakar cukup mengubah file ini, tanpa mengubah kode.",
+  "urutan_kelas": ["S1", "S2", "S3", "N"],
+  "label_kelas": {
+    "S1": "Sangat Sesuai",
+    "S2": "Cukup Sesuai",
+    "S3": "Sesuai Marginal",
+    "N": "Tidak Sesuai"
+  },
+  "parameter": {
+    "suhu_rerata_c": {
+      "nama": "suhu",
+      "label": "Suhu rerata",
+      "satuan": "°C",
+      "jenis": "numerik",
+      "sumber": "BMKG",
+      "ideal": "15–22",
+      "toleransi": 0.5,
+      "rentang": [
+        {"kelas": "S1", "min": 15, "max": 22},
+        {"kelas": "S2", "min": 22, "max": 25},
+        {"kelas": "S2", "min": 12, "max": 15},
+        {"kelas": "S3", "min": 25, "max": 28},
+        {"kelas": "S3", "min": 10, "max": 12}
+      ]
+    },
+    "curah_hujan_mm": {
+      "nama": "curah hujan",
+      "label": "Curah hujan",
+      "satuan": "mm/th",
+      "jenis": "numerik",
+      "sumber": "BMKG",
+      "ideal": "1000–2000",
+      "toleransi": 100,
+      "rentang": [
+        {"kelas": "S1", "min": 1000, "max": 2000},
+        {"kelas": "S2", "min": 2000, "max": 2500},
+        {"kelas": "S2", "min": 800, "max": 1000},
+        {"kelas": "S3", "min": 2500, "max": 3000},
+        {"kelas": "S3", "min": 600, "max": 800}
+      ]
+    },
+    "ph_tanah": {
+      "nama": "pH tanah",
+      "label": "pH tanah",
+      "satuan": "",
+      "jenis": "numerik",
+      "sumber": "BBSDLP",
+      "ideal": "5,6–7,0",
+      "toleransi": 0.1,
+      "rentang": [
+        {"kelas": "S1", "min": 5.6, "max": 7.0},
+        {"kelas": "S2", "min": 7.0, "max": 7.5},
+        {"kelas": "S2", "min": 5.0, "max": 5.6},
+        {"kelas": "S3", "min": 7.5, "max": 8.0},
+        {"kelas": "S3", "min": 4.5, "max": 5.0}
+      ]
+    },
+    "c_organik_persen": {
+      "nama": "C-organik",
+      "label": "C-organik",
+      "satuan": "%",
+      "jenis": "numerik",
+      "sumber": "BBSDLP",
+      "ideal": "≥1,2",
+      "toleransi": 0.1,
+      "rentang": [
+        {"kelas": "S1", "min": 1.2, "max": 99},
+        {"kelas": "S2", "min": 0.8, "max": 1.2},
+        {"kelas": "S3", "min": 0, "max": 0.8}
+      ]
+    },
+    "lereng_persen": {
+      "nama": "kemiringan lereng",
+      "label": "Lereng",
+      "satuan": "%",
+      "jenis": "numerik",
+      "sumber": "DEM",
+      "ideal": "<8",
+      "toleransi": 1,
+      "rentang": [
+        {"kelas": "S1", "min": 0, "max": 8},
+        {"kelas": "S2", "min": 8, "max": 15},
+        {"kelas": "S3", "min": 15, "max": 30}
+      ]
+    },
+    "drainase": {
+      "nama": "drainase",
+      "label": "Drainase",
+      "satuan": "",
+      "jenis": "kategorik",
+      "sumber": "BBSDLP",
+      "ideal": "baik / agak baik",
+      "pilihan": {
+        "baik": "S1",
+        "agak baik": "S1",
+        "agak cepat": "S2",
+        "agak terhambat": "S2",
+        "terhambat": "S3",
+        "sangat terhambat": "N",
+        "cepat": "N"
+      }
+    },
+    "tekstur": {
+      "nama": "tekstur tanah",
+      "label": "Tekstur tanah",
+      "satuan": "",
+      "jenis": "kategorik",
+      "sumber": "BBSDLP",
+      "ideal": "sedang / agak halus",
+      "pilihan": {
+        "sedang": "S1",
+        "agak halus": "S1",
+        "agak kasar": "S2",
+        "halus": "S2",
+        "sangat halus": "S3",
+        "kasar": "N"
+      }
+    }
+  }
+}

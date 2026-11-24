@@ -1,0 +1,52 @@
+{
+  "_catatan": "DATA CONTOH (DUMMY) untuk prototipe. Nilai parameter dibangkitkan dari nilai dasar kawasan + variasi acak tetap (seed) per petak. Ganti dengan data asli BMKG (iklim), peta tanah BBSDLP, dan DEM saat tersedia (tugas no. 3 LKP 6).",
+  "ukuran_grid": 6,
+  "kawasan": [
+    {
+      "id": "temanggung",
+      "nama": "Kawasan Kledung–Bansari",
+      "kabupaten": "Temanggung",
+      "provinsi": "Jawa Tengah",
+      "bbox": {"lat_min": -7.36, "lat_max": -7.24, "lon_min": 109.98, "lon_max": 110.10},
+      "dasar": {"suhu_rerata_c": 19.0, "curah_hujan_mm": 2050, "ph_tanah": 5.7,
+                "c_organik_persen": 1.9, "lereng_persen": 11, "elevasi_m": 1350},
+      "desa": [
+        {"nama": "Kledung", "kecamatan": "Kledung", "lat": -7.334, "lon": 110.036},
+        {"nama": "Petarangan", "kecamatan": "Kledung", "lat": -7.318, "lon": 110.010},
+        {"nama": "Bansari", "kecamatan": "Bansari", "lat": -7.300, "lon": 110.060},
+        {"nama": "Tlogowero", "kecamatan": "Bansari", "lat": -7.275, "lon": 110.030},
+        {"nama": "Kwadungan Gunung", "kecamatan": "Kledung", "lat": -7.350, "lon": 110.075}
+      ]
+    },
+    {
+      "id": "sembalun",
+      "nama": "Kawasan Sembalun",
+      "kabupaten": "Lombok Timur",
+      "provinsi": "Nusa Tenggara Barat",
+      "bbox": {"lat_min": -8.40, "lat_max": -8.32, "lon_min": 116.49, "lon_max": 116.57},
+      "dasar": {"suhu_rerata_c": 20.5, "curah_hujan_mm": 1500, "ph_tanah": 6.2,
+                "c_organik_persen": 1.5, "lereng_persen": 7, "elevasi_m": 1150},
+      "desa": [
+        {"nama": "Sembalun Lawang", "kecamatan": "Sembalun", "lat": -8.355, "lon": 116.530},
+        {"nama": "Sembalun Bumbung", "kecamatan": "Sembalun", "lat": -8.372, "lon": 116.540},
+        {"nama": "Sajang", "kecamatan": "Sembalun", "lat": -8.330, "lon": 116.555},
+        {"nama": "Bilok Petung", "kecamatan": "Sembalun", "lat": -8.390, "lon": 116.505}
+      ]
+    },
+    {
+      "id": "tawangmangu",
+      "nama": "Kawasan Tawangmangu",
+      "kabupaten": "Karanganyar",
+      "provinsi": "Jawa Tengah",
+      "bbox": {"lat_min": -7.70, "lat_max": -7.62, "lon_min": 111.10, "lon_max": 111.18},
+      "dasar": {"suhu_rerata_c": 21.0, "curah_hujan_mm": 2600, "ph_tanah": 5.4,
+                "c_organik_persen": 1.6, "lereng_persen": 14, "elevasi_m": 1200},
+      "desa": [
+        {"nama": "Tawangmangu", "kecamatan": "Tawangmangu", "lat": -7.665, "lon": 111.130},
+        {"nama": "Gondosuli", "kecamatan": "Tawangmangu", "lat": -7.640, "lon": 111.150},
+        {"nama": "Blumbang", "kecamatan": "Tawangmangu", "lat": -7.680, "lon": 111.160},
+        {"nama": "Kalisoro", "kecamatan": "Tawangmangu", "lat": -7.660, "lon": 111.110}
+      ]
+    }
+  ]
+}

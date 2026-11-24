@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2f6b3a">
+  <title>INA Agro-GARLIC</title>
+  <link rel="stylesheet" href="/static/vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header id="header" class="site-header" hidden>
+    <div class="wrap header-in">
+      <a class="brand" href="#home"><span class="brand-mark"></span>INA Agro-GARLIC<small>Kesesuaian lahan bawang putih</small></a>
+      <nav class="site-nav">
+        <a href="#home" data-tab="home">Beranda</a>
+        <a href="#analisis" data-tab="analisis">Analisis Lahan</a>
+        <a href="#peta" data-tab="peta">Peta Kesesuaian</a>
+        <a href="#profil" data-tab="profil">Akun &amp; Riwayat</a>
+      </nav>
+      <div class="user-box"><span id="user-label"></span><button class="btn-sm" onclick="bantuan()">Bantuan</button></div>
+    </div>
+  </header>
+  <main id="view" class="wrap"></main>
+  <footer id="footer" class="site-footer" hidden><div class="wrap">INA Agro-GARLIC · Prototipe LKP PPKBP Kelompok 2 · Metode rule-based FAO 1976 / juknis BBSDLP (disederhanakan) · <a href="/docs" target="_blank">Dokumentasi API</a></div></footer>
+  <div id="modal" class="modal" hidden><div class="modal-box"><div id="modal-body"></div>
+    <button class="btn" onclick="tutupModal()">Tutup</button></div></div>
+  <div id="toast" class="toast" hidden></div>
+  <script src="/static/vendor/leaflet/leaflet.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>

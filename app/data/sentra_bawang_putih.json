@@ -1,0 +1,93 @@
+{
+ "_catatan": "Sentra/kawasan pengembangan bawang putih yang dipakai untuk membangun grid data riil. Koordinat pusat adalah perkiraan lokasi kecamatan sentra; grid 8x8 petak (±2,2 km per petak) dibangun di sekitarnya.",
+ "kawasan": [
+  {
+   "id": "temanggung",
+   "nama": "Kledung–Bansari",
+   "kabupaten": "Temanggung",
+   "provinsi": "Jawa Tengah",
+   "lat": -7.33,
+   "lon": 110.04
+  },
+  {
+   "id": "wonosobo",
+   "nama": "Kejajar–Dieng",
+   "kabupaten": "Wonosobo",
+   "provinsi": "Jawa Tengah",
+   "lat": -7.25,
+   "lon": 109.93
+  },
+  {
+   "id": "magelang",
+   "nama": "Ngablak–Pakis",
+   "kabupaten": "Magelang",
+   "provinsi": "Jawa Tengah",
+   "lat": -7.4,
+   "lon": 110.37
+  },
+  {
+   "id": "karanganyar",
+   "nama": "Tawangmangu",
+   "kabupaten": "Karanganyar",
+   "provinsi": "Jawa Tengah",
+   "lat": -7.66,
+   "lon": 111.13
+  },
+  {
+   "id": "tegal",
+   "nama": "Bumijawa",
+   "kabupaten": "Tegal",
+   "provinsi": "Jawa Tengah",
+   "lat": -7.16,
+   "lon": 109.13
+  },
+  {
+   "id": "majalengka",
+   "nama": "Argapura",
+   "kabupaten": "Majalengka",
+   "provinsi": "Jawa Barat",
+   "lat": -6.9,
+   "lon": 108.33
+  },
+  {
+   "id": "batu",
+   "nama": "Bumiaji",
+   "kabupaten": "Kota Batu",
+   "provinsi": "Jawa Timur",
+   "lat": -7.83,
+   "lon": 112.53
+  },
+  {
+   "id": "lomboktimur",
+   "nama": "Sembalun",
+   "kabupaten": "Lombok Timur",
+   "provinsi": "Nusa Tenggara Barat",
+   "lat": -8.36,
+   "lon": 116.53
+  },
+  {
+   "id": "solok",
+   "nama": "Lembah Gumanti",
+   "kabupaten": "Solok",
+   "provinsi": "Sumatera Barat",
+   "lat": -1.07,
+   "lon": 100.78
+  },
+  {
+   "id": "humbahas",
+   "nama": "Dolok Sanggul",
+   "kabupaten": "Humbang Hasundutan",
+   "provinsi": "Sumatera Utara",
+   "lat": 2.26,
+   "lon": 98.75
+  },
+  {
+   "id": "enrekang",
+   "nama": "Baraka",
+   "kabupaten": "Enrekang",
+   "provinsi": "Sulawesi Selatan",
+   "lat": -3.43,
+   "lon": 119.88
+  }
+ ]
+}

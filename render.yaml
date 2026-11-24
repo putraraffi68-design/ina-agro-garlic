@@ -1,0 +1,15 @@
+# Konfigurasi deploy gratis di Render (https://render.com) — dibaca otomatis lewat "New > Blueprint"
+services:
+  - type: web
+    name: ina-agro-garlic
+    runtime: python
+    plan: free
+    region: singapore
+    buildCommand: pip install -r requirements.txt
+    startCommand: cd app && uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/v1/info-data
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      - key: DATA_MODE
+        value: riil

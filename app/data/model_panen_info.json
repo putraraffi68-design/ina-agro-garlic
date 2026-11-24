@@ -1,0 +1,46 @@
+{
+ "model": "RandomForestRegressor",
+ "jumlah_data": 53,
+ "jumlah_kabupaten": 6,
+ "tahun": [
+  2014,
+  2023
+ ],
+ "fitur": [
+  "suhu_rerata_c",
+  "curah_hujan_mm",
+  "ph_tanah",
+  "c_organik_persen",
+  "lereng_persen",
+  "elevasi_m"
+ ],
+ "kabupaten_latih": [
+  "humbahas",
+  "karanganyar",
+  "magelang",
+  "tegal",
+  "temanggung",
+  "wonosobo"
+ ],
+ "evaluasi_tahun_baru": {
+  "mae_ton_ha": 1.57,
+  "mae_baseline_ton_ha": 1.82,
+  "r2": 0.23
+ },
+ "evaluasi_kabupaten_baru": {
+  "mae_ton_ha": 2.32,
+  "mae_baseline_ton_ha": 1.95,
+  "r2": -0.49
+ },
+ "mae_ton_ha": 1.57,
+ "rerata_produktivitas_ton_ha": 7.04,
+ "kepentingan_fitur": {
+  "C-organik": 0.563,
+  "Suhu rerata": 0.171,
+  "Curah hujan": 0.124,
+  "Elevasi": 0.095,
+  "Lereng": 0.047,
+  "pH tanah": 0.0
+ },
+ "sumber_target": "BPS: produksi & luas panen bawang putih per kabupaten"
+}
