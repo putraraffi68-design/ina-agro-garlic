@@ -1,9 +1,9 @@
-"""Entry point untuk Vercel (serverless). Semua URL diarahkan ke sini oleh vercel.json."""
+"""Entry point untuk Vercel (preset FastAPI mendeteksi file ini otomatis)."""
 import os
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "app"))
+sys.path.insert(0, str(Path(__file__).resolve().parent / "app"))
 os.environ.setdefault("AGROGARLIC_DB", "/tmp/agrogarlic.db")  # di Vercel hanya /tmp yang boleh ditulis
 os.environ.setdefault("DATA_MODE", "riil")
 
