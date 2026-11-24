@@ -3,3 +3,4 @@ uvicorn>=0.29
 reportlab>=4.0
 numpy>=1.26
 pillow>=10.0
+psycopg[binary]>=3.1
