@@ -71,27 +71,27 @@ async function init() {
 
 /* ---------------- Layar 1: Login ---------------- */
 const LOGO = `<svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
-  <circle cx="60" cy="60" r="58" fill="#e7efe2"/>
-  <path d="M60 22c3 10 8 13 8 13s20 8 20 33c0 18-13 28-28 28S32 86 32 68c0-25 20-33 20-33s5-3 8-13z" fill="#fff" stroke="#2f6b3a" stroke-width="3"/>
-  <path d="M60 36c-6 12-8 30 0 59M60 36c6 12 8 30 0 59M47 45c-8 12-7 32 6 48M73 45c8 12 7 32-6 48" fill="none" stroke="#2f6b3a" stroke-width="2"/>
-  <path d="M60 22c-2-6 0-10 4-14" fill="none" stroke="#2f6b3a" stroke-width="3" stroke-linecap="round"/></svg>`;
+  <path d="M60 22c3 10 8 13 8 13s20 8 20 33c0 18-13 28-28 28S32 86 32 68c0-25 20-33 20-33s5-3 8-13z" fill="#f1ecef"/>
+  <path d="M60 36c-6 12-8 30 0 59M60 36c6 12 8 30 0 59M47 45c-8 12-7 32 6 48M73 45c8 12 7 32-6 48" fill="none" stroke="#5b2f5f" stroke-width="2.4"/>
+  <path d="M60 22c-2-6 0-10 4-14" fill="none" stroke="#f1ecef" stroke-width="3.5" stroke-linecap="round"/></svg>`;
 
 function layarLogin(daftar = false) {
   $("#view").innerHTML = `
   <section class="login-split">
     <div class="login-intro">
-      ${LOGO}
-      <h1>INA Agro-GARLIC</h1>
-      <p class="lead">Cek kesesuaian lahan bawang putih berbasis data agroekologi.</p>
+      <div class="merek">${LOGO}<span>INA Agro-GARLIC</span></div>
+      <h1>Cek dulu tanahnya, baru tanam bawang putih.</h1>
+      <p class="lead">INA Agro-GARLIC menilai kesesuaian lahan dari data iklim, tanah, dan lereng di titik kebun Anda.</p>
       <ul class="fitur">
-        <li><b>Pilih lokasi lahan</b> di peta, lewat pencarian desa, atau koordinat.</li>
-        <li><b>Data otomatis</b> suhu, curah hujan, tanah, dan lereng (BMKG, BBSDLP, DEM).</li>
-        <li><b>Kelas S1/S2/S3/N</b> beserta faktor pembatas dan rekomendasi budidaya.</li>
-        <li><b>Laporan PDF</b> dan riwayat analisis tersimpan.</li>
+        <li><b>Pilih lokasi lahan</b> di peta, lewat nama desa, atau koordinat.</li>
+        <li><b>Data terisi otomatis:</b> suhu, curah hujan, pH, C-organik, lereng, drainase, tekstur.</li>
+        <li><b>Kelas S1 sampai N</b> beserta faktor pembatas dan rekomendasi budidaya.</li>
+        <li><b>Laporan PDF</b>, riwayat tersimpan, dan perkiraan hasil panen.</li>
       </ul>
-      <p class="small">Metode sistem pakar rule-based (FAO 1976 / juknis BBSDLP).</p>
+      <p class="small">Sistem pakar rule-based mengikuti FAO (1976) dan juknis BBSDLP.</p>
+      <div class="horizon" aria-hidden="true"></div>
     </div>
-    <div class="login-card">
+    <div class="login-panel"><div class="login-card">
       <h2>${daftar ? "Daftar akun baru" : "Masuk"}</h2>
       <form id="f-login" autocomplete="on">
         ${daftar ? `<label class="field"><span>Nama lengkap</span><input id="nama" autocomplete="name"></label>` : ""}
@@ -106,7 +106,7 @@ function layarLogin(daftar = false) {
         <span>Saya setuju lokasi lahan saya dipakai <b>hanya</b> untuk analisis kesesuaian lahan (opt-in, bisa dicabut di Pengaturan Akun). <button type="button" class="link" id="b-privasi">Baca kebijakan privasi</button></span></label>
       <div class="sep"><span>atau</span></div>
       <button class="btn" id="b-tamu">Coba tanpa akun (mode tamu)</button>
-    </div>
+    </div></div>
   </section>`;
   $("#b-toggle").onclick = () => layarLogin(!daftar);
   $("#b-privasi").onclick = kebijakanPrivasi;
@@ -145,21 +145,22 @@ async function layarHome() {
   const nama = S.user ? (S.user.nama || S.user.kontak) : "Tamu";
   $("#view").innerHTML = `
   <div class="hero">
-    <div><h1>Selamat datang, ${esc(nama)}</h1>
-      <p>Pilih titik lahan di peta, sistem mengambil data iklim, tanah, dan lereng, lalu menentukan kelas kesesuaian lahan untuk bawang putih beserta faktor pembatas dan rekomendasinya.</p></div>
-    <div class="hero-act"><a class="btn big" href="#analisis">Mulai analisis lahan</a><a class="btn ghost" href="#peta">Lihat peta kesesuaian</a></div>
+    <div><div class="sapa">Halo, ${esc(nama)}</div>
+      <h1>Lahan mana yang mau Anda cek hari ini?</h1>
+      <p>Pilih titik kebun di peta. Sistem mengambil data iklim, tanah, dan lereng di titik itu, lalu menentukan kelas kesesuaian untuk bawang putih beserta faktor pembatas dan rekomendasinya.</p></div>
+    <div class="hero-act"><a class="btn primary big" href="#analisis">Mulai analisis lahan</a><a class="btn" href="#peta">Lihat peta kesesuaian</a></div>
   </div>
-  <div class="grid-3">
-    <div class="card"><h3>Arti kelas kesesuaian</h3>
-      <div class="kelas-list">
-        <div><span class="badge bg-S1">S1</span> Sangat sesuai</div><div><span class="badge bg-S2">S2</span> Cukup sesuai</div>
-        <div><span class="badge bg-S3">S3</span> Sesuai marginal</div><div><span class="badge bg-N">N</span> Tidak sesuai</div></div>
-      <p class="small muted">Kelas akhir mengikuti parameter terburuk (hukum minimum). Parameter itulah yang disebut faktor pembatas.</p></div>
+  <div class="skala">
+    ${[["S1", "Sangat sesuai"], ["S2", "Cukup sesuai"], ["S3", "Sesuai marginal"], ["N", "Tidak sesuai"]].map(([k, t]) =>
+      `<div><div class="bar4 bg-${k}"></div><b class="kelas-${k}">${k}</b><span>${t}</span></div>`).join("")}
+  </div>
+  <p class="skala-note">Kelas akhir mengikuti parameter yang paling buruk (hukum minimum). Parameter itu disebut faktor pembatas, dan rekomendasi budidaya disusun untuk memperbaikinya.</p>
+  <div class="grid-2">
     <div class="card" id="home-riw"><h3>Analisis tersimpan terakhir</h3><div class="muted small">${S.user ? "Memuat…" : "Masuk dengan akun untuk menyimpan riwayat analisis."}</div></div>
-    <div class="card"><h3>${S.info?.mode === "riil" ? `Sentra bawang putih (${S.info.jumlah_unit} unit lahan riil)` : "Kawasan cakupan (MVP)"}</h3><div id="home-kaw" class="small muted">Memuat…</div></div>
+    <div class="card"><h3>${S.info?.mode === "riil" ? `Sentra bawang putih (${S.info.jumlah_unit} unit lahan riil)` : "Kawasan cakupan (MVP)"}</h3><div id="home-kaw" class="kaw-list"><span class="small muted">Memuat…</span></div></div>
   </div>`;
   api("/api/v1/kawasan").then((k) => {
-    $("#home-kaw").innerHTML = k.map((x) => `• ${esc(x.nama)}, Kab. ${esc(x.kabupaten)} — <button class="link" data-c="${x.pusat}">analisis di sini</button>`).join("<br>");
+    $("#home-kaw").innerHTML = k.map((x) => `<div class="kaw"><span>${esc(x.nama)}, <span class="muted">Kab. ${esc(x.kabupaten)}</span></span><button class="link" data-c="${x.pusat}">Analisis di sini</button></div>`).join("");
     document.querySelectorAll("#home-kaw [data-c]").forEach((b) => (b.onclick = () => {
       const [lat, lon] = b.dataset.c.split(",").map(Number); setLokasi(lat, lon, false); location.hash = "#analisis";
     }));
@@ -213,7 +214,7 @@ async function layarAnalisis() {
   S.maps.push(map);
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 18, attribution: "© OpenStreetMap" }).addTo(map);
   api("/api/v1/kawasan").then((ks) => ks.forEach((k) => L.rectangle([[k.bbox.lat_min, k.bbox.lon_min], [k.bbox.lat_max, k.bbox.lon_max]],
-    { color: "#2f6b3a", weight: 1.5, fill: false, dashArray: "5 5", interactive: false }).addTo(map))).catch(() => {});
+    { color: "#5b2f5f", weight: 1.5, fill: false, dashArray: "5 5", interactive: false }).addTo(map))).catch(() => {});
   const pin = L.marker([S.lokasi.lat, S.lokasi.lon], { draggable: true }).addTo(map);
   pin.on("dragend", () => { const p = pin.getLatLng(); setLokasi(p.lat, p.lng); });
   map.on("click", (e) => { pin.setLatLng(e.latlng); setLokasi(e.latlng.lat, e.latlng.lng); });
@@ -346,12 +347,11 @@ async function jalankanAnalisis() {
 function layarHasil() {
   const h = S.hasil, K = S.kriteria?.parameter || {};
   const pembatas = h.faktor_pembatas_kode;
-  const lain = Object.keys(h.kelas_per_parameter).filter((k) => !pembatas.includes(k));
-  const ringkasLain = lain.length ? `${lain.length} parameter lain: ` + ringkasKelas(lain.map((k) => h.kelas_per_parameter[k].kelas)) : "";
-  const baris = (k) => {
+  const lapis = (k) => {
     const d = h.kelas_per_parameter[k];
-    return `<tr><td>${esc(K[k]?.label || k)}${d.sumber === "manual" ? ` <span class="manual">manual</span>` : ""}</td>
-      <td>${angka(d.nilai)}${esc(d.satuan === "%" ? "%" : "")}${d.dekat_ambang ? " *" : ""}</td><td>ideal ${esc(d.ideal)}</td><td class="k kelas-${d.kelas}">${d.kelas}</td></tr>`;
+    return `<div class="lapis ${d.kelas}${pembatas.includes(k) ? " batas" : ""}" style="--c:var(--${d.kelas})"><span class="strip"></span>
+      <div class="nm">${esc(K[k]?.label || k)}${pembatas.includes(k) ? `<span class="pill-batas">faktor pembatas</span>` : ""}${d.sumber === "manual" ? `<span class="manual">manual</span>` : ""}<small>ideal ${esc(d.ideal)}</small></div>
+      <div class="v">${angka(d.nilai)}${d.satuan ? " " + esc(d.satuan) : ""}${d.dekat_ambang ? " *" : ""}</div><div class="kl kelas-${d.kelas}">${d.kelas}</div></div>`;
   };
   $("#view").innerHTML = `
   <div class="page-head"><div><a class="back" href="#analisis">← Kembali ke Analisis Lahan</a><h1>Hasil Kesesuaian</h1>
@@ -361,34 +361,30 @@ function layarHasil() {
       <button class="btn-sm" id="b-menu" aria-label="Menu lain">⋯</button></div></div>
   <div class="layout-2 hasil">
     <section>
-      <div class="card hasil-head">
-        <div class="kelas-box kelas-${h.kelas_akhir}">${h.kelas_akhir}</div>
-        <div><div class="label">${esc(h.label)}</div>
-          <div>${esc(h.penjelasan)}</div>
-          <div class="muted small">Kelengkapan data ${esc(h.kelengkapan_data)} · elevasi ±${h.elevasi_m ?? "-"} mdpl</div></div>
-      </div>
-      <div class="card"><h3>${pembatas.length ? `Kenapa ${h.kelas_akhir}? Faktor pembatas` : "Tidak ada faktor pembatas"}</h3>
-        <table><thead><tr><th>Parameter</th><th>Nilai</th><th>Ideal (S1)</th><th>Kelas</th></tr></thead><tbody>${pembatas.map(baris).join("")}
-          <tr id="tr-lain"><td colspan="4" class="muted">${pembatas.length ? ringkasLain : "Semua parameter: S1"} · <button class="link" id="b-semua">lihat semua</button></td></tr>
-          ${lain.map((k) => baris(k).replace("<tr>", '<tr class="lain" hidden>')).join("")}
-        </tbody></table>
-        ${h.parameter_dekat_ambang.length ? `<p class="small muted">* nilai dekat ambang batas kelas: ${esc(h.parameter_dekat_ambang.join(", "))}</p>` : ""}
-        ${h.parameter_hilang.length ? `<p class="small" style="color:var(--N)">Data tidak tersedia: ${esc(h.parameter_hilang.join(", "))}</p>` : ""}
+      <div class="vonis">
+        <div class="vonis-kelas">
+          <div class="huruf kelas-${h.kelas_akhir}">${h.kelas_akhir}</div>
+          <div class="label">${esc(h.label)}</div>
+          <p class="jelas">${esc(h.penjelasan)}</p>
+          ${h.parameter_dekat_ambang.length ? `<p class="small muted">* Nilai dekat ambang batas kelas: ${esc(h.parameter_dekat_ambang.join(", "))}.</p>` : ""}
+          ${h.parameter_hilang.length ? `<p class="small" style="color:var(--N)">Data tidak tersedia: ${esc(h.parameter_hilang.join(", "))}.</p>` : ""}
+          <div class="meta">Kelengkapan data ${esc(h.kelengkapan_data)}, elevasi ±${h.elevasi_m ?? "-"} mdpl</div>
+        </div>
+        <div class="profil">
+          <div class="profil-judul"><span>Profil lahan per parameter</span><span>Kelas</span></div>
+          ${Object.keys(h.kelas_per_parameter).map(lapis).join("")}
+        </div>
       </div>
       ${kartuPanen(h)}
-      <div class="card"><h3>Rekomendasi</h3><ul class="rek">${h.rekomendasi.map((r) => `<li>${esc(r)}</li>`).join("")}</ul></div>
+      <div class="card"><h3>Rekomendasi budidaya</h3><ol class="rek">${h.rekomendasi.map((r) => `<li>${esc(r)}</li>`).join("")}</ol></div>
     </section>
     <aside class="col-side">
       <div class="card"><h3>Lokasi lahan</h3><div id="minimap" class="map mini"></div></div>
       <div class="note">${h.perlu_verifikasi_lapangan ? "<b>Disarankan verifikasi lapangan oleh penyuluh</b> karena data tidak lengkap atau ada nilai dekat ambang batas." : "Disarankan verifikasi lapangan oleh penyuluh sebelum tanam."}</div>
-      <p class="small muted">ID ${esc(h.analysis_id)} · diproses ${angka(h.waktu_proses_ms)} ms</p>
+      <p class="small muted">ID analisis ${esc(h.analysis_id)}, diproses dalam ${angka(h.waktu_proses_ms)} ms.</p>
     </aside>
   </div>`;
 
-  $("#b-semua").onclick = () => {
-    const rows = document.querySelectorAll("tr.lain"); const buka = rows[0]?.hidden;
-    rows.forEach((r) => (r.hidden = !buka)); $("#b-semua").textContent = buka ? "sembunyikan" : "lihat semua";
-  };
   $("#b-menu").onclick = () => modal(`<h3>Menu</h3><p><a href="#analisis" onclick="tutupModal()">Analisis lokasi lain</a></p>
     <p><button class="link" onclick="tutupModal();window.print()">Cetak halaman</button></p>
     <p><button class="link" onclick="salinJSON()">Salin hasil (JSON)</button></p>`);
