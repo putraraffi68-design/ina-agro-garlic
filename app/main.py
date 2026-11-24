@@ -4,7 +4,16 @@ Menjalankan:  uvicorn main:app --reload   (dari folder app/)
 Dokumentasi API otomatis: http://localhost:8000/docs
 """
 import json
+import os
 import secrets
+import sys
+from pathlib import Path as _P
+
+# supaya modul di folder app/ bisa di-import dari mana pun (mis. Vercel memuat file ini sebagai app.main)
+sys.path.insert(0, str(_P(__file__).resolve().parent))
+# di hosting serverless (Vercel/AWS Lambda) hanya /tmp yang boleh ditulis
+if os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
+    os.environ.setdefault("AGROGARLIC_DB", "/tmp/agrogarlic.db")
 import time
 from datetime import datetime
 from pathlib import Path
