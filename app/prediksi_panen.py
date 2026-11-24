@@ -23,7 +23,7 @@ from pathlib import Path
 import numpy as np
 
 DATA = Path(__file__).parent / "data"
-MODEL_PATH = DATA / "model_panen.joblib"
+MODEL_PATH = DATA / "model_panen.json"  # pohon-pohon Random Forest dalam JSON (tanpa scikit-learn saat dipakai)
 INFO_PATH = DATA / "model_panen_info.json"
 FITUR = ["suhu_rerata_c", "curah_hujan_mm", "ph_tanah", "c_organik_persen", "lereng_persen", "elevasi_m"]
 LABEL_FITUR = {"suhu_rerata_c": "Suhu rerata", "curah_hujan_mm": "Curah hujan", "ph_tanah": "pH tanah",
@@ -70,7 +70,6 @@ def bangun_dataset():
 def latih(n_pohon=300, seed=42):
     from sklearn.ensemble import RandomForestRegressor
     from sklearn.metrics import mean_absolute_error, r2_score
-    import joblib
 
     X, y, grup, baris = bangun_dataset()
     if len(y) < 10:
@@ -91,7 +90,10 @@ def latih(n_pohon=300, seed=42):
 
     ev_tahun, ev_kab = uji_silang(tahun), uji_silang(grup)
     model = RandomForestRegressor(n_estimators=n_pohon, min_samples_leaf=5, random_state=seed).fit(X, y)
-    joblib.dump(model, MODEL_PATH)
+    pohon = [{"kiri": t.tree_.children_left.tolist(), "kanan": t.tree_.children_right.tolist(),
+              "fitur": t.tree_.feature.tolist(), "ambang": [round(float(v), 6) for v in t.tree_.threshold],
+              "nilai": [round(float(v), 5) for v in t.tree_.value[:, 0, 0]]} for t in model.estimators_]
+    json.dump({"fitur": FITUR, "pohon": pohon}, open(MODEL_PATH, "w"), separators=(",", ":"))
     info = {
         "model": "RandomForestRegressor",
         "jumlah_data": int(len(y)),
@@ -122,6 +124,13 @@ def info_model():
     return json.load(open(INFO_PATH, encoding="utf-8")) if INFO_PATH.exists() else None
 
 
+def _tebak_pohon(t, x):
+    i = 0
+    while t["kiri"][i] != -1:
+        i = t["kiri"][i] if x[t["fitur"][i]] <= t["ambang"][i] else t["kanan"][i]
+    return t["nilai"][i]
+
+
 def prediksi(nilai, elevasi_m, kawasan_id=None):
     """nilai: 7 parameter lokasi. Kembalikan dict prediksi atau None bila model/fitur tidak tersedia."""
     global _model
@@ -131,17 +140,9 @@ def prediksi(nilai, elevasi_m, kawasan_id=None):
     if any(fitur.get(f) is None for f in FITUR):
         return None
     if _model is None:
-        import joblib
-        import warnings
-        try:
-            with warnings.catch_warnings():
-                warnings.simplefilter("error")  # versi scikit-learn berbeda -> latih ulang
-                _model = joblib.load(MODEL_PATH)
-        except Exception:
-            latih()  # data latih kecil (53 baris), selesai dalam beberapa detik
-            _model = joblib.load(MODEL_PATH)
-    x = np.array([[float(fitur[f]) for f in FITUR]])
-    per_pohon = np.array([t.predict(x)[0] for t in _model.estimators_])
+        _model = json.load(open(MODEL_PATH))
+    x = [float(fitur[f]) for f in FITUR]
+    per_pohon = np.array([_tebak_pohon(t, x) for t in _model["pohon"]])
     info = info_model() or {}
     dikenal = kawasan_id in info.get("kabupaten_latih", [])
     return {

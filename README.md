@@ -38,6 +38,7 @@ Menjalankan pengujian:
 
 ```bash
 cd software
+pip install -r requirements-dev.txt
 python -m pytest -q tests
 ```
 
@@ -94,6 +95,8 @@ Aplikasi sekarang memakai **data riil** secara bawaan (`DATA_MODE=riil`):
   API key BPS tidak disimpan di kode.
 
 ## Web publik
+
+Tiga pilihan hosting gratis tanpa kartu kredit sudah disiapkan: **Vercel** (`vercel.json` + `api/index.py`), **Hugging Face Spaces** (`Dockerfile`), dan Render (`render.yaml`). Catatan: di hosting gratis, akun & riwayat (SQLite) bisa hilang saat server dinyalakan ulang.
 
 Lihat **PANDUAN_DEPLOY.md** (Render, gratis, tanpa terminal).
 
