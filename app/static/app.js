@@ -357,7 +357,7 @@ function layarHasil() {
   <div class="page-head"><div><a class="back" href="#analisis">← Kembali ke Analisis Lahan</a><h1>Hasil Kesesuaian</h1>
     <p class="muted">Desa ${esc(h.lokasi.desa)}, ${h.lokasi.kecamatan && h.lokasi.kecamatan !== "-" ? `Kec. ${esc(h.lokasi.kecamatan)}, ` : ""}Kab. ${esc(h.lokasi.kabupaten)} · ${h.lokasi.lat.toFixed(5)}, ${h.lokasi.lon.toFixed(5)}</p></div>
     <div class="head-act"><button class="btn" id="b-simpan">${h._tersimpan ? "Tersimpan ✓" : "Simpan ke riwayat"}</button>
-      <a class="btn primary" href="/api/v1/analisis/${encodeURIComponent(h.analysis_id)}/pdf">Unduh PDF</a>
+      <button class="btn primary" id="b-pdf">Unduh PDF</button>
       <button class="btn-sm" id="b-menu" aria-label="Menu lain">⋯</button></div></div>
   <div class="layout-2 hasil">
     <section>
@@ -392,6 +392,17 @@ function layarHasil() {
   $("#b-menu").onclick = () => modal(`<h3>Menu</h3><p><a href="#analisis" onclick="tutupModal()">Analisis lokasi lain</a></p>
     <p><button class="link" onclick="tutupModal();window.print()">Cetak halaman</button></p>
     <p><button class="link" onclick="salinJSON()">Salin hasil (JSON)</button></p>`);
+  $("#b-pdf").onclick = async () => {
+    const b = $("#b-pdf"); b.disabled = true; b.textContent = "Menyiapkan…";
+    try {
+      const r = await fetch("/api/v1/laporan-pdf", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(h) });
+      if (!r.ok) throw new Error("Gagal membuat PDF");
+      const url = URL.createObjectURL(await r.blob());
+      const a = document.createElement("a"); a.href = url; a.download = `laporan_${h.analysis_id}.pdf`; a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+    } catch (ex) { toast(ex.message); }
+    finally { b.disabled = false; b.textContent = "Unduh PDF"; }
+  };
   $("#b-simpan").onclick = async () => {
     if (!S.user) { modal(`<h3>Simpan memerlukan akun</h3><p>Mode tamu tidak menyimpan riwayat. Masuk atau daftar untuk menyimpan, atau tekan <b>Unduh PDF</b> untuk menyimpan laporan ke perangkat.</p><p><a href="#login" onclick="tutupModal();keluarTamu()">Masuk / daftar</a></p>`); return; }
     try { await api("/api/v1/riwayat/" + h.analysis_id, { method: "POST" }); h._tersimpan = true; $("#b-simpan").textContent = "Tersimpan ✓"; toast("Disimpan ke riwayat"); }

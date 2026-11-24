@@ -247,6 +247,18 @@ def ambil(aid: str):
     return json.loads(r["hasil"])
 
 
+@app.post("/api/v1/laporan-pdf")
+def pdf_dari_hasil(hasil: dict):
+    """PDF dari hasil analisis yang dikirim browser (andal di hosting serverless yang tidak menyimpan data)."""
+    try:
+        isi = buat_pdf(hasil)
+    except Exception:
+        raise HTTPException(400, {"error": "data hasil analisis tidak valid"})
+    aid = str(hasil.get("analysis_id", "analisis"))[:40]
+    return Response(isi, media_type="application/pdf",
+                    headers={"Content-Disposition": f'attachment; filename="laporan_{aid}.pdf"'})
+
+
 @app.get("/api/v1/analisis/{aid}/pdf")
 def unduh_pdf(aid: str):
     h = ambil(aid)
